@@ -1,13 +1,18 @@
 package com.example.gamesfragment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements FragmentAhorcado.IOnAttachListener{
+    private ArrayList<String> palabras;
+    private FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +21,27 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Elige juego --->");
     }
 
+    private void loadData() {
+        ParserPalabras parser = new ParserPalabras(this);
+
+        if(parser.parse()) {
+            palabras = parser.getPalabras();
+        } else {
+            Toast.makeText(this, "Error al obtener las palabras", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public ArrayList<String> getPalabras() {
+        if (palabras == null) {
+            loadData();
+        }
+        return palabras;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -27,21 +49,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ahorcado:
-                jugarAhorcado();
+                manager = getSupportFragmentManager();
+                manager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.frgPrincipal, FragmentAhorcado.class, null)
+                        .commit();
                 return true;
             case R.id.tresEnRaya:
-                jugarTresEnRaya();
+                manager = getSupportFragmentManager();
+                manager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.frgPrincipal, FragmentTresEnRaya.class, null)
+                        .commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void jugarAhorcado() {
-
-    }
-
-    public void jugarTresEnRaya() {
-
     }
 }

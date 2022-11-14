@@ -65,8 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvIntentos"
-        android:textSize="25dp"
-        android:textStyle="bold"/>
+        android:textSize="40dp" />
 
     <TextView
         android:id="@+id/tvLetras"
@@ -104,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvLetras" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etLetraComprobar"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -115,13 +114,35 @@
         app:layout_constraintTop_toBottomOf="@+id/tvExplicacion" />
 
     <Button
-        android:id="@+id/btnBoton"
+        android:id="@+id/btnJugar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="JUGAR"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/etLetraComprobar"
         app:layout_constraintTop_toBottomOf="@+id/tvExplicacion" />
+
+    <Button
+        android:id="@+id/btnJugarDeNuevo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:text="JUGAR DE NUEVO"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAdvertencias" />
+
+    <TextView
+        android:id="@+id/tvAdvertencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJugar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

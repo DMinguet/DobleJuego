@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/drawable/marcador_cpu.xml" value="0.17" />
+        <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/drawable/marcador_jugador.xml" value="0.17" />
         <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/drawable/redondear_textview.xml" value="0.17" />
-        <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/layout/fragment_3raya.xml" value="0.22" />
         <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/layout/fragment_ahorcado.xml" value="0.22" />
         <entry key="..\:/Users/Dani/AndroidStudioProjects/GamesFragment/app/src/main/res/layout/fragment_inicial.xml" value="0.17864583333333334" />
