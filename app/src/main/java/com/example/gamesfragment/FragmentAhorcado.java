@@ -73,7 +73,7 @@ public class FragmentAhorcado extends Fragment {
                 if (juegoAhorcado.getIntentosRestantes() == 0) {
                     ivImagenRepresentacion.setImageResource(R.drawable.hangman_0);
                     tvIntentosRestantes.setText(String.valueOf(juegoAhorcado.getIntentosRestantes()));
-                    tvAdvertencias.setText("Intentos agotados");
+                    tvAdvertencias.setText("Intentos agotados: " + palabraAleatoria);
                     btnJugarDeNuevo.setVisibility(View.VISIBLE);
                 } else if (juegoTerminado == true) {
                     tvAdvertencias.setText("Has acertado la palabra, enhorabuena!!");
@@ -98,6 +98,7 @@ public class FragmentAhorcado extends Fragment {
     public void jugar() {
         tvAdvertencias.setText("");
         String textoIntroducido = etLetraComprobar.getText().toString();
+        etLetraComprobar.setText("");
 
         textoIntroducido.toLowerCase();
         char letra = textoIntroducido.charAt(0);
@@ -111,7 +112,7 @@ public class FragmentAhorcado extends Fragment {
                     case 0:
                         ivImagenRepresentacion.setImageResource(R.drawable.hangman_0);
                         tvIntentosRestantes.setText(String.valueOf(juegoAhorcado.getIntentosRestantes()));
-                        tvAdvertencias.setText("Intentos agotados");
+                        tvAdvertencias.setText("Intentos agotados: " + palabraAleatoria);
                         btnJugarDeNuevo.setVisibility(View.VISIBLE);
                         break;
                     case 1:
