@@ -16,24 +16,40 @@ public class JuegoAhorcado {
         this.letrasGastadas = new ArrayList<>();
     }
 
-    //Devuelve  las posiciones donde puede coincidir la letra, en el caso de que no esté, devolverá null
+    //Devuelve  las posiciones donde puede coincidir la letra, en el caso de que no esté, devolverá null, en el caso de que la letra ya se haya indicado anteriormente, devolverá
+    //un -1 en la primera posición del array
     public ArrayList<Integer> comprobarLetra(char letra) {
         ArrayList<Integer> posiciones = new ArrayList<>();
 
-        letrasGastadas.add(letra);
+        if (comprobarLetraYaIntroducida(letra)) {
+            posiciones.add(-1);
+            return posiciones;
+        } else {
+            letrasGastadas.add(letra);
 
-        for (int i = 0; i < palabraAleatoria.length(); i++) {
-            if (palabraAleatoria.charAt(i) == letra) {
-                posiciones.add(i);
+            for (int i = 0; i < palabraAleatoria.length(); i++) {
+                if (palabraAleatoria.charAt(i) == letra) {
+                    posiciones.add(i);
+                }
+            }
+
+            if (posiciones.isEmpty()) {
+                intentosRestantes--;
+                return null;
+            } else {
+                return posiciones;
+            }
+        }
+    }
+
+    public boolean comprobarLetraYaIntroducida(char letra) {
+        for(int i = 0; i < letrasGastadas.size(); i++) {
+            if (letrasGastadas.get(i) == letra) {
+                return true;
             }
         }
 
-        if (posiciones.isEmpty()) {
-            intentosRestantes--;
-            return null;
-        } else {
-            return posiciones;
-        }
+        return false;
     }
 
     public void inicializar() {

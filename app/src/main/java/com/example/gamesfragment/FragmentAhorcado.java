@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 public class FragmentAhorcado extends Fragment {
-    private final String LETRAS = "qwertyuiopasdfghjklñzxcvbnm";
+    private final String LETRAS = "qwertyuiopasdfghjklñzxcvbnmáéíóú";
     private ArrayList<String> palabras;
     private String palabraAleatoria;
     private ArrayList<Character> textoMostrado;
@@ -70,6 +71,8 @@ public class FragmentAhorcado extends Fragment {
             @Override
             public void onClick(View view) {
                 if (juegoAhorcado.getIntentosRestantes() == 0) {
+                    ivImagenRepresentacion.setImageResource(R.drawable.hangman_0);
+                    tvIntentosRestantes.setText(String.valueOf(juegoAhorcado.getIntentosRestantes()));
                     tvAdvertencias.setText("Intentos agotados");
                     btnJugarDeNuevo.setVisibility(View.VISIBLE);
                 } else if (juegoTerminado == true) {
@@ -97,15 +100,19 @@ public class FragmentAhorcado extends Fragment {
         String textoIntroducido = etLetraComprobar.getText().toString();
 
         textoIntroducido.toLowerCase();
-        char comprobarLetra = textoIntroducido.charAt(0);
+        char letra = textoIntroducido.charAt(0);
 
-        if (comprobarLetra(comprobarLetra)) {
-            if (juegoAhorcado.comprobarLetra(comprobarLetra) == null) {
+        if (comprobarLetra(letra)) {
+            ArrayList<Integer> posiciones = juegoAhorcado.comprobarLetra(letra);
+            if (posiciones == null) {
                 tvLetrasGastadas.setText(juegoAhorcado.getLetrasGastadas().toString());
                 tvIntentosRestantes.setText(String.valueOf(juegoAhorcado.getIntentosRestantes()));
                 switch (juegoAhorcado.getIntentosRestantes()) {
                     case 0:
                         ivImagenRepresentacion.setImageResource(R.drawable.hangman_0);
+                        tvIntentosRestantes.setText(String.valueOf(juegoAhorcado.getIntentosRestantes()));
+                        tvAdvertencias.setText("Intentos agotados");
+                        btnJugarDeNuevo.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         ivImagenRepresentacion.setImageResource(R.drawable.hangman_1);
@@ -126,22 +133,27 @@ public class FragmentAhorcado extends Fragment {
                         ivImagenRepresentacion.setImageResource(R.drawable.hangman_6);
                         break;
                 }
-                if (juegoAhorcado.getIntentosRestantes() == 0) {
-                    tvAdvertencias.setText("Intentos agotados");
-                    btnJugarDeNuevo.setVisibility(View.VISIBLE);
-                }
+            } else if (posiciones.get(0) == -1) {
+                tvAdvertencias.setText("Letra ya introducida anteriormente");
             } else {
                 tvLetrasGastadas.setText(juegoAhorcado.getLetrasGastadas().toString());
-                for (int i = 0; i < juegoAhorcado.comprobarLetra(comprobarLetra).size(); i++) {
-                    textoMostrado.set(juegoAhorcado.comprobarLetra(comprobarLetra).get(i), comprobarLetra);
+
+                for (int i = 0; i < posiciones.size(); i++) {
+                    textoMostrado.set(posiciones.get(i), letra);
                 }
 
                 StringBuilder mostrarResultado = new StringBuilder();
-                mostrarResultado.append(textoMostrado);
+                for (int i = 0; i < textoMostrado.size(); i++) {
+                    if (i == textoMostrado.size() - 1) {
+                        mostrarResultado.append(textoMostrado.get(i));
+                    } else {
+                        mostrarResultado.append(textoMostrado.get(i)).append("  ");
+                    }
+                }
                 tvPalabra.setText(mostrarResultado);
 
                 for (int i = 0; i < mostrarResultado.length(); i++) {
-                    if (mostrarResultado.charAt(i) == '+') {
+                    if (mostrarResultado.charAt(i) == '_') {
                         break;
                     } else if (i == mostrarResultado.length() - 1 && mostrarResultado.charAt(i) != '_') {
                         juegoTerminado = true;
@@ -150,13 +162,12 @@ public class FragmentAhorcado extends Fragment {
                     }
                 }
             }
-            juegoAhorcado.comprobarLetra(comprobarLetra);
         }
     }
 
-    public boolean comprobarLetra(char comprobarLetra) {
+    public boolean comprobarLetra(char letra) {
         for (int i = 0; i < LETRAS.length(); i++) {
-            if (comprobarLetra == LETRAS.charAt(i)) {
+            if (letra == LETRAS.charAt(i)) {
                 return true;
             }
         }
@@ -166,28 +177,30 @@ public class FragmentAhorcado extends Fragment {
 
     public void inicializar() {
         StringBuilder totalGuionesPalabra = new StringBuilder();
+        StringBuilder mostrarGuiones = new StringBuilder();
         tvIntentosRestantes.setText("6");
 
         for (int i = 0; i < palabraAleatoria.length(); i++) {
             if(i == palabraAleatoria.length() - 1) {
-                totalGuionesPalabra.append("_");
+                mostrarGuiones.append("_");
             } else {
-                totalGuionesPalabra.append("_  ");
+                mostrarGuiones.append("_  ");
             }
+            totalGuionesPalabra.append('_');
         }
 
         for (int i = 0; i < totalGuionesPalabra.length(); i++) {
             textoMostrado.add(totalGuionesPalabra.charAt(i));
         }
 
-        tvPalabra.setText(totalGuionesPalabra);
+        tvPalabra.setText(mostrarGuiones);
     }
 
     public void juegoNuevo() {
         palabraAleatoria = juegoAhorcado.getPalabraAleatoria();
         textoMostrado.clear();
         juegoTerminado = false;
-        ivImagenRepresentacion.setImageResource(R.drawable.hangman_0);
+        ivImagenRepresentacion.setImageResource(R.drawable.hangman_6);
         tvIntentosRestantes.setText("6");
         tvLetrasGastadas.setText("");
         tvAdvertencias.setText("");
